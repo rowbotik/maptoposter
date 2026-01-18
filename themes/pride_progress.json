@@ -1,0 +1,15 @@
+{
+  "name": "Progress Pride",
+  "description": "Progress Pride colors with strong contrast and warm neutrals",
+  "bg": "#FFF7F0",
+  "text": "#2C2C2C",
+  "gradient_color": "#FFF7F0",
+  "water": "#BFE4FF",
+  "parks": "#CFEFD8",
+  "road_motorway": "#000000",
+  "road_primary": "#E40303",
+  "road_secondary": "#FF8C00",
+  "road_tertiary": "#FFED00",
+  "road_residential": "#008026",
+  "road_default": "#24408E"
+}

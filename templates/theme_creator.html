@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Theme Creator - Map Poster Generator{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="theme-creator-layout">
+        <!-- Left: Form -->
+        <div class="theme-form-panel">
+            <div class="card">
+                <h2>Create Custom Theme</h2>
+
+                <div class="form-group">
+                    <label for="theme-name">Theme Name</label>
+                    <input type="text" id="theme-name" class="form-control" placeholder="My Custom Theme">
+                </div>
+
+                <div class="form-group">
+                    <label for="theme-desc">Description</label>
+                    <input type="text" id="theme-desc" class="form-control" placeholder="A beautiful custom theme">
+                </div>
+
+                <h3>Colors</h3>
+
+                <div class="color-picker-group">
+                    <div class="color-picker-item">
+                        <label>Background</label>
+                        <input type="color" id="color-bg" value="#FFFFFF">
+                        <input type="text" class="color-hex" id="hex-bg" value="#FFFFFF">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Text</label>
+                        <input type="color" id="color-text" value="#000000">
+                        <input type="text" class="color-hex" id="hex-text" value="#000000">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Gradient</label>
+                        <input type="color" id="color-gradient" value="#FFFFFF">
+                        <input type="text" class="color-hex" id="hex-gradient" value="#FFFFFF">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Water</label>
+                        <input type="color" id="color-water" value="#C0C0C0">
+                        <input type="text" class="color-hex" id="hex-water" value="#C0C0C0">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Parks</label>
+                        <input type="color" id="color-parks" value="#F0F0F0">
+                        <input type="text" class="color-hex" id="hex-parks" value="#F0F0F0">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Motorway</label>
+                        <input type="color" id="color-motorway" value="#0A0A0A">
+                        <input type="text" class="color-hex" id="hex-motorway" value="#0A0A0A">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Primary Roads</label>
+                        <input type="color" id="color-primary" value="#1A1A1A">
+                        <input type="text" class="color-hex" id="hex-primary" value="#1A1A1A">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Secondary Roads</label>
+                        <input type="color" id="color-secondary" value="#2A2A2A">
+                        <input type="text" class="color-hex" id="hex-secondary" value="#2A2A2A">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Tertiary Roads</label>
+                        <input type="color" id="color-tertiary" value="#3A3A3A">
+                        <input type="text" class="color-hex" id="hex-tertiary" value="#3A3A3A">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Residential</label>
+                        <input type="color" id="color-residential" value="#4A4A4A">
+                        <input type="text" class="color-hex" id="hex-residential" value="#4A4A4A">
+                    </div>
+
+                    <div class="color-picker-item">
+                        <label>Default Roads</label>
+                        <input type="color" id="color-default" value="#3A3A3A">
+                        <input type="text" class="color-hex" id="hex-default" value="#3A3A3A">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="save-theme-btn" class="btn btn-primary">Save Theme</button>
+                    <a href="/" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Preview -->
+        <div class="theme-preview-panel">
+            <div class="card">
+                <h2>Live Preview</h2>
+                <button id="update-preview-btn" class="btn btn-secondary btn-small">Update Preview</button>
+
+                <div id="custom-theme-preview" class="theme-preview-canvas">
+                    <canvas id="preview-canvas" width="400" height="300"></canvas>
+                </div>
+
+                <div class="preview-colors" id="preview-colors"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="success-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Theme Created!</h3>
+        <p>Your custom theme has been saved successfully.</p>
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Use Theme Now</a>
+            <button id="create-another-btn" class="btn btn-secondary">Create Another</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/theme_creator.js') }}"></script>
+{% endblock %}

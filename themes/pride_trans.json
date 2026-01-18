@@ -1,0 +1,15 @@
+{
+  "name": "Trans Pride",
+  "description": "Light blues, pinks, and white - soft and clean",
+  "bg": "#FDF7FB",
+  "text": "#2B3A4A",
+  "gradient_color": "#FDF7FB",
+  "water": "#BDE3F4",
+  "parks": "#E7F4F8",
+  "road_motorway": "#5BCEFA",
+  "road_primary": "#F5A9B8",
+  "road_secondary": "#FFFFFF",
+  "road_tertiary": "#9ECBE0",
+  "road_residential": "#D4BFD0",
+  "road_default": "#9ECBE0"
+}

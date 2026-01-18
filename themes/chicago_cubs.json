@@ -1,0 +1,15 @@
+{
+  "name": "Chicago Cubs",
+  "description": "Cubs blue with red accents - crisp and classic",
+  "bg": "#F5F7FA",
+  "text": "#0E3386",
+  "gradient_color": "#F5F7FA",
+  "water": "#D5E1F0",
+  "parks": "#E9EEF6",
+  "road_motorway": "#CC3433",
+  "road_primary": "#0E3386",
+  "road_secondary": "#2B5AA0",
+  "road_tertiary": "#5A7FB3",
+  "road_residential": "#9CB2C7",
+  "road_default": "#5A7FB3"
+}

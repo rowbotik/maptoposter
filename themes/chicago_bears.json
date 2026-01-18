@@ -1,0 +1,15 @@
+{
+  "name": "Chicago Bears",
+  "description": "Navy and orange - classic NFL bold contrast",
+  "bg": "#F5F5F5",
+  "text": "#0B162A",
+  "gradient_color": "#F5F5F5",
+  "water": "#D6DBE0",
+  "parks": "#E7E7E7",
+  "road_motorway": "#C83803",
+  "road_primary": "#0B162A",
+  "road_secondary": "#2C3E55",
+  "road_tertiary": "#556579",
+  "road_residential": "#9AA3AD",
+  "road_default": "#556579"
+}

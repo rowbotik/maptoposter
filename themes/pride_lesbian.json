@@ -1,0 +1,15 @@
+{
+  "name": "Lesbian Pride",
+  "description": "Warm oranges, pinks, and plum - vibrant and layered",
+  "bg": "#FFF6F3",
+  "text": "#4B1D2F",
+  "gradient_color": "#FFF6F3",
+  "water": "#F6D7E2",
+  "parks": "#FAD8C9",
+  "road_motorway": "#D52D00",
+  "road_primary": "#FF9A56",
+  "road_secondary": "#FFFFFF",
+  "road_tertiary": "#D362A4",
+  "road_residential": "#A30262",
+  "road_default": "#D362A4"
+}

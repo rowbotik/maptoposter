@@ -1,0 +1,15 @@
+{
+  "name": "Pride Rainbow Dark",
+  "description": "Rainbow accents on a deep charcoal base",
+  "bg": "#0B0B0B",
+  "text": "#F5F5F5",
+  "gradient_color": "#0B0B0B",
+  "water": "#121827",
+  "parks": "#161616",
+  "road_motorway": "#E81416",
+  "road_primary": "#FF7A00",
+  "road_secondary": "#FFC300",
+  "road_tertiary": "#5ECF3A",
+  "road_residential": "#2B9BFF",
+  "road_default": "#7A3CEB"
+}

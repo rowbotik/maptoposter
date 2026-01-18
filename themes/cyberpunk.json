@@ -1,0 +1,15 @@
+{
+  "name": "Cyberpunk",
+  "description": "Magenta, cyan, and purple neon on a deep midnight base",
+  "bg": "#0A0A14",
+  "text": "#F2E8FF",
+  "gradient_color": "#0B0E1A",
+  "water": "#0B1224",
+  "parks": "#14162A",
+  "road_motorway": "#FF2D9C",
+  "road_primary": "#19F5FF",
+  "road_secondary": "#8B4BFF",
+  "road_tertiary": "#C85CFF",
+  "road_residential": "#6B9CFF",
+  "road_default": "#8B4BFF"
+}

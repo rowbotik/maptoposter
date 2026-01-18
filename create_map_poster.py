@@ -1,4 +1,7 @@
 import osmnx as ox
+import networkx as nx
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import matplotlib.colors as mcolors
@@ -213,33 +216,181 @@ def get_coordinates(city, country):
     else:
         raise ValueError(f"Could not find coordinates for {city}, {country}")
 
-def create_poster(city, country, point, dist, output_file):
+def _format_coordinates(lat, lon):
+    lat_dir = "N" if lat >= 0 else "S"
+    lon_dir = "E" if lon >= 0 else "W"
+    return f"{abs(lat):.4f}° {lat_dir} / {abs(lon):.4f}° {lon_dir}"
+
+
+def _merge_options(options):
+    defaults = {
+        "network_types": ["all"],
+        "use_cache": True,
+        "show_water": True,
+        "show_parks": True,
+        "show_buildings": False,
+        "show_railways": False,
+        "show_gradients": True,
+        "use_road_hierarchy_colors": True,
+        "use_road_hierarchy_widths": True,
+        "road_color": None,
+        "road_width": 0.6,
+        "building_color": None,
+        "building_alpha": 0.4,
+        "railway_color": None,
+        "railway_width": 0.6,
+        "custom_layers": [],
+        "typography_positions": {
+            "city_y": 0.14,
+            "line_y": 0.125,
+            "country_y": 0.10,
+            "coords_y": 0.07,
+            "attribution_y": 0.02
+        }
+    }
+
+    if not options:
+        return defaults
+
+    merged = defaults.copy()
+    merged.update(options)
+    merged["typography_positions"] = {
+        **defaults["typography_positions"],
+        **options.get("typography_positions", {})
+    }
+    return merged
+
+
+def _plot_custom_layer(ax, layer_data, style):
+    if layer_data is None or layer_data.empty:
+        return
+
+    color = style.get("color", "#333333")
+    alpha = style.get("alpha", 1.0)
+    zorder = style.get("zorder", 2.5)
+    line_width = style.get("line_width", 0.5)
+    mode = style.get("mode", "line")
+
+    if mode == "fill":
+        layer_data.plot(
+            ax=ax,
+            facecolor=color,
+            edgecolor="none",
+            alpha=alpha,
+            zorder=zorder
+        )
+    else:
+        layer_data.plot(
+            ax=ax,
+            color=color,
+            linewidth=line_width,
+            alpha=alpha,
+            zorder=zorder
+        )
+
+
+def create_poster(city, country, point, dist, output_file, options=None):
     print(f"\nGenerating map for {city}, {country}...")
-    
+
+    options = _merge_options(options)
+    network_types = options.get("network_types", ["all"])
+    if isinstance(network_types, str):
+        network_types = [network_types]
+
+    cache_dir = "cache"
+    os.makedirs(cache_dir, exist_ok=True)
+    ox.settings.use_cache = bool(options.get("use_cache", True))
+    ox.settings.cache_folder = cache_dir
+
+    custom_layers = [
+        layer for layer in (options.get("custom_layers") or [])
+        if isinstance(layer, dict) and layer.get("tag_key")
+    ]
+
+    fetch_steps = 0 if not network_types else 1
+    if options["show_water"]:
+        fetch_steps += 1
+    if options["show_parks"]:
+        fetch_steps += 1
+    if options["show_buildings"]:
+        fetch_steps += 1
+    if options["show_railways"]:
+        fetch_steps += 1
+    fetch_steps += len(custom_layers)
+
     # Progress bar for data fetching
-    with tqdm(total=3, desc="Fetching map data", unit="step", bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}') as pbar:
+    with tqdm(total=fetch_steps, desc="Fetching map data", unit="step", bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}') as pbar:
         # 1. Fetch Street Network
-        pbar.set_description("Downloading street network")
-        G = ox.graph_from_point(point, dist=dist, dist_type='bbox', network_type='all')
-        pbar.update(1)
-        time.sleep(0.5)  # Rate limit between requests
-        
-        # 2. Fetch Water Features
-        pbar.set_description("Downloading water features")
-        try:
-            water = ox.features_from_point(point, tags={'natural': 'water', 'waterway': 'riverbank'}, dist=dist)
-        except:
-            water = None
-        pbar.update(1)
-        time.sleep(0.3)
-        
-        # 3. Fetch Parks
-        pbar.set_description("Downloading parks/green spaces")
-        try:
-            parks = ox.features_from_point(point, tags={'leisure': 'park', 'landuse': 'grass'}, dist=dist)
-        except:
-            parks = None
-        pbar.update(1)
+        G = None
+        if network_types:
+            if "all" in network_types:
+                pbar.set_description("Downloading street network")
+                G = ox.graph_from_point(point, dist=dist, dist_type='bbox', network_type='all')
+                pbar.update(1)
+                time.sleep(0.5)  # Rate limit between requests
+            else:
+                graphs = []
+                for net_type in network_types:
+                    pbar.set_description(f"Downloading {net_type} network")
+                    graphs.append(
+                        ox.graph_from_point(point, dist=dist, dist_type='bbox', network_type=net_type)
+                    )
+                    pbar.update(1)
+                    time.sleep(0.3)
+                if graphs:
+                    G = nx.compose_all(graphs)
+
+        water = None
+        if options["show_water"]:
+            pbar.set_description("Downloading water features")
+            try:
+                water = ox.features_from_point(point, tags={'natural': 'water', 'waterway': 'riverbank'}, dist=dist)
+            except:
+                water = None
+            pbar.update(1)
+            time.sleep(0.3)
+
+        parks = None
+        if options["show_parks"]:
+            pbar.set_description("Downloading parks/green spaces")
+            try:
+                parks = ox.features_from_point(point, tags={'leisure': 'park', 'landuse': 'grass'}, dist=dist)
+            except:
+                parks = None
+            pbar.update(1)
+
+        buildings = None
+        if options["show_buildings"]:
+            pbar.set_description("Downloading buildings")
+            try:
+                buildings = ox.features_from_point(point, tags={'building': True}, dist=dist)
+            except:
+                buildings = None
+            pbar.update(1)
+
+        railways = None
+        if options["show_railways"]:
+            pbar.set_description("Downloading railways")
+            try:
+                railways = ox.features_from_point(point, tags={'railway': 'rail'}, dist=dist)
+            except:
+                railways = None
+            pbar.update(1)
+
+        custom_layer_data = []
+        for layer in custom_layers:
+            key = layer.get("tag_key")
+            if not key:
+                continue
+            tag_value = layer.get("tag_value")
+            tags = {key: True if tag_value in (None, "", "true", "True") else tag_value}
+            pbar.set_description(f"Downloading {key} layer")
+            try:
+                layer_data = ox.features_from_point(point, tags=tags, dist=dist)
+            except:
+                layer_data = None
+            custom_layer_data.append((layer_data, layer))
+            pbar.update(1)
     
     print("✓ All data downloaded successfully!")
     
@@ -255,23 +406,62 @@ def create_poster(city, country, point, dist, output_file):
         water.plot(ax=ax, facecolor=THEME['water'], edgecolor='none', zorder=1)
     if parks is not None and not parks.empty:
         parks.plot(ax=ax, facecolor=THEME['parks'], edgecolor='none', zorder=2)
+
+    if buildings is not None and not buildings.empty:
+        building_color = options["building_color"] or THEME.get("road_residential", "#999999")
+        buildings.plot(
+            ax=ax,
+            facecolor=building_color,
+            edgecolor="none",
+            alpha=options["building_alpha"],
+            zorder=2.2
+        )
+
+    if railways is not None and not railways.empty:
+        railway_color = options["railway_color"] or THEME.get("road_primary", "#666666")
+        railways.plot(
+            ax=ax,
+            color=railway_color,
+            linewidth=options["railway_width"],
+            alpha=0.9,
+            zorder=2.6
+        )
+
+    for layer_data, layer_style in custom_layer_data:
+        _plot_custom_layer(ax, layer_data, {
+            "color": layer_style.get("color", "#333333"),
+            "alpha": layer_style.get("alpha", 1.0),
+            "zorder": layer_style.get("zorder", 2.5),
+            "line_width": layer_style.get("line_width", 0.5),
+            "mode": layer_style.get("mode", "line")
+        })
     
     # Layer 2: Roads with hierarchy coloring
-    print("Applying road hierarchy colors...")
-    edge_colors = get_edge_colors_by_type(G)
-    edge_widths = get_edge_widths_by_type(G)
-    
-    ox.plot_graph(
-        G, ax=ax, bgcolor=THEME['bg'],
-        node_size=0,
-        edge_color=edge_colors,
-        edge_linewidth=edge_widths,
-        show=False, close=False
-    )
+    if G is not None and len(G.edges) > 0:
+        print("Applying road hierarchy colors...")
+        if options["use_road_hierarchy_colors"]:
+            edge_colors = get_edge_colors_by_type(G)
+        else:
+            road_color = options["road_color"] or THEME.get("road_default", "#333333")
+            edge_colors = [road_color] * len(G.edges)
+
+        if options["use_road_hierarchy_widths"]:
+            edge_widths = get_edge_widths_by_type(G)
+        else:
+            edge_widths = [options["road_width"]] * len(G.edges)
+        
+        ox.plot_graph(
+            G, ax=ax, bgcolor=THEME['bg'],
+            node_size=0,
+            edge_color=edge_colors,
+            edge_linewidth=edge_widths,
+            show=False, close=False
+        )
     
     # Layer 3: Gradients (Top and Bottom)
-    create_gradient_fade(ax, THEME['gradient_color'], location='bottom', zorder=10)
-    create_gradient_fade(ax, THEME['gradient_color'], location='top', zorder=10)
+    if options["show_gradients"]:
+        create_gradient_fade(ax, THEME['gradient_color'], location='bottom', zorder=10)
+        create_gradient_fade(ax, THEME['gradient_color'], location='top', zorder=10)
     
     # 4. Typography using Roboto font
     if FONTS:
@@ -289,21 +479,21 @@ def create_poster(city, country, point, dist, output_file):
     spaced_city = "  ".join(list(city.upper()))
 
     # --- BOTTOM TEXT ---
-    ax.text(0.5, 0.14, spaced_city, transform=ax.transAxes,
+    text_positions = options["typography_positions"]
+
+    ax.text(0.5, text_positions["city_y"], spaced_city, transform=ax.transAxes,
             color=THEME['text'], ha='center', fontproperties=font_main, zorder=11)
     
-    ax.text(0.5, 0.10, country.upper(), transform=ax.transAxes,
+    ax.text(0.5, text_positions["country_y"], country.upper(), transform=ax.transAxes,
             color=THEME['text'], ha='center', fontproperties=font_sub, zorder=11)
     
     lat, lon = point
-    coords = f"{lat:.4f}° N / {lon:.4f}° E" if lat >= 0 else f"{abs(lat):.4f}° S / {lon:.4f}° E"
-    if lon < 0:
-        coords = coords.replace("E", "W")
+    coords = _format_coordinates(lat, lon)
     
-    ax.text(0.5, 0.07, coords, transform=ax.transAxes,
+    ax.text(0.5, text_positions["coords_y"], coords, transform=ax.transAxes,
             color=THEME['text'], alpha=0.7, ha='center', fontproperties=font_coords, zorder=11)
     
-    ax.plot([0.4, 0.6], [0.125, 0.125], transform=ax.transAxes, 
+    ax.plot([0.4, 0.6], [text_positions["line_y"], text_positions["line_y"]], transform=ax.transAxes, 
             color=THEME['text'], linewidth=1, zorder=11)
 
     # --- ATTRIBUTION (bottom right) ---
@@ -312,7 +502,7 @@ def create_poster(city, country, point, dist, output_file):
     else:
         font_attr = FontProperties(family='monospace', size=8)
     
-    ax.text(0.98, 0.02, "© OpenStreetMap contributors", transform=ax.transAxes,
+    ax.text(0.98, text_positions["attribution_y"], "© OpenStreetMap contributors", transform=ax.transAxes,
             color=THEME['text'], alpha=0.5, ha='right', va='bottom', 
             fontproperties=font_attr, zorder=11)
 

@@ -1,0 +1,15 @@
+{
+  "name": "Detroit Tigers",
+  "description": "Navy and orange - classic baseball palette",
+  "bg": "#F6F5F3",
+  "text": "#0C2340",
+  "gradient_color": "#F6F5F3",
+  "water": "#D6DBE3",
+  "parks": "#E9E4DB",
+  "road_motorway": "#F26722",
+  "road_primary": "#0C2340",
+  "road_secondary": "#274562",
+  "road_tertiary": "#5B6E83",
+  "road_residential": "#9AA6B1",
+  "road_default": "#5B6E83"
+}

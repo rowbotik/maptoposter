@@ -1,0 +1,15 @@
+{
+  "name": "Michigan State",
+  "description": "Green and white - Spartan palette with muted grays",
+  "bg": "#F4F6F4",
+  "text": "#18453B",
+  "gradient_color": "#F4F6F4",
+  "water": "#D1DAD6",
+  "parks": "#E4E9E6",
+  "road_motorway": "#18453B",
+  "road_primary": "#2E6A5A",
+  "road_secondary": "#4F8A76",
+  "road_tertiary": "#7AA796",
+  "road_residential": "#A8C2B8",
+  "road_default": "#7AA796"
+}

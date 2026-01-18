@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="app-layout">
+        <!-- Left Panel: Controls -->
+        <div class="control-panel">
+            <div class="card">
+                <h2>Location</h2>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" class="form-control" placeholder="San Francisco" value="San Francisco">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" class="form-control" placeholder="USA" value="USA">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Or Enter Full Address</label>
+                    <div class="address-lookup">
+                        <input type="text" id="address" class="form-control" placeholder="123 Main St, San Francisco, CA">
+                        <button id="lookup-btn" class="btn btn-secondary">Lookup</button>
+                    </div>
+                </div>
+
+                <div id="coordinates-display" class="coordinates-display hidden">
+                    <div><strong>Coordinates:</strong></div>
+                    <div id="coords-text">Lat: 0.0000, Lon: 0.0000</div>
+                </div>
+
+                <div class="marker-toggle">
+                    <input type="checkbox" id="house-marker" />
+                    <label for="house-marker">
+                        <span class="marker-icon">🏠</span> Add house marker at location
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Map Settings</h2>
+                <div class="form-group">
+                    <label for="distance">Map Radius: <span id="distance-value">10000</span>m</label>
+                    <input type="range" id="distance" class="slider" min="1000" max="20000" value="10000" step="500">
+                    <div class="slider-labels">
+                        <span>1km</span>
+                        <span>10km</span>
+                        <span>20km</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Network Types</label>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="network-drive" checked>
+                        <label for="network-drive">Drive</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="network-bike" checked>
+                        <label for="network-bike">Bike</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="network-walk" checked>
+                        <label for="network-walk">Walk</label>
+                    </div>
+                    <p class="help-text">Select one or more. If none are selected, roads are omitted.</p>
+                </div>
+                <div class="form-group">
+                    <div class="toggle-row">
+                        <input type="checkbox" id="use-cache" checked>
+                        <label for="use-cache">Use cached map data</label>
+                    </div>
+                    <p class="help-text">Caches OSM downloads locally to speed up repeat renders.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Theme</h2>
+                <div class="theme-search">
+                    <input type="text" id="theme-search" class="form-control" placeholder="Search themes...">
+                </div>
+                <div id="theme-grid" class="theme-grid">
+                    <div class="loading">Loading themes...</div>
+                </div>
+            </div>
+
+            <button id="generate-btn" class="btn btn-primary btn-large">
+                Generate Poster
+            </button>
+
+            <div id="progress-container" class="progress-container" style="display: none;">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div id="progress-message" class="progress-message">Initializing...</div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Preview -->
+        <div class="preview-panel">
+            <div class="card">
+                <h2>Theme Preview</h2>
+                <div id="theme-preview" class="theme-preview-large">
+                    <p class="text-muted">Select a theme to see preview</p>
+                </div>
+
+                <div id="theme-details" class="theme-details" style="display: none;">
+                    <h3 id="theme-name"></h3>
+                    <p id="theme-description" class="text-muted"></p>
+
+                    <h4>Color Palette</h4>
+                    <div id="color-palette" class="color-palette"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Advanced Settings</h2>
+                    <button id="reset-advanced-btn" class="btn btn-secondary btn-small" type="button">
+                        Reset Advanced Settings
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h3>Road Styling</h3>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="road-colors-hierarchy" checked>
+                        <label for="road-colors-hierarchy">Use road hierarchy colors</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="road-widths-hierarchy" checked>
+                        <label for="road-widths-hierarchy">Use road hierarchy widths</label>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="road-color">Road color override</label>
+                            <input type="color" id="road-color" class="form-control" value="#333333">
+                        </div>
+                        <div class="form-group">
+                            <label for="road-width">Uniform road width</label>
+                            <input type="number" id="road-width" class="form-control" min="0.1" max="3" step="0.1" value="0.6">
+                        </div>
+                    </div>
+                    <p class="help-text">Overrides apply when hierarchy is disabled.</p>
+                </div>
+
+                <div class="form-section">
+                    <h3>Map Layers</h3>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="show-water" checked>
+                        <label for="show-water">Show water</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="show-parks" checked>
+                        <label for="show-parks">Show parks</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="show-buildings">
+                        <label for="show-buildings">Show buildings</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="show-railways">
+                        <label for="show-railways">Show railways</label>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="show-gradients" checked>
+                        <label for="show-gradients">Show gradient fade</label>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="building-color">Building color</label>
+                            <input type="color" id="building-color" class="form-control" value="#999999">
+                        </div>
+                        <div class="form-group">
+                            <label for="railway-color">Railway color</label>
+                            <input type="color" id="railway-color" class="form-control" value="#666666">
+                        </div>
+                        <div class="form-group">
+                            <label for="railway-width">Railway width</label>
+                            <input type="number" id="railway-width" class="form-control" min="0.1" max="3" step="0.1" value="0.6">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-title">
+                        <h3>Custom Layer</h3>
+                        <button id="custom-layer-help-btn" class="info-button" type="button" title="What is this?">?</button>
+                    </div>
+                    <div id="custom-layer-help" class="info-box hidden-input">
+                        Custom layers let you pull any OSM tag into the poster (e.g. `amenity=cafe`, `building`,
+                        `landuse=industrial`). Pick a tag key/value, choose line or fill, and tune z-order to control
+                        stacking above or below roads.
+                    </div>
+                    <div class="form-group">
+                        <label for="custom-layer-preset">Preset</label>
+                        <select id="custom-layer-preset" class="form-control">
+                            <option value="">Custom</option>
+                            <option value="buildings">Buildings</option>
+                            <option value="railways">Railways</option>
+                            <option value="cafes">Cafes</option>
+                            <option value="schools">Schools</option>
+                        </select>
+                        <p id="custom-layer-preset-desc" class="help-text"></p>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="custom-layer-preset-name">Preset name</label>
+                            <input type="text" id="custom-layer-preset-name" class="form-control" placeholder="My POIs">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-preset-desc-input">Preset description (optional)</label>
+                            <input type="text" id="custom-layer-preset-desc-input" class="form-control" placeholder="Favorite points of interest">
+                        </div>
+                        <div class="preset-actions">
+                            <button id="save-custom-preset-btn" class="btn btn-secondary btn-small" type="button">
+                                Save Preset
+                            </button>
+                            <button id="delete-custom-preset-btn" class="btn btn-secondary btn-small" type="button">
+                                Delete Preset
+                            </button>
+                            <button id="delete-all-presets-btn" class="btn btn-secondary btn-small" type="button">
+                                Delete All
+                            </button>
+                            <button id="export-presets-btn" class="btn btn-secondary btn-small" type="button">
+                                Export
+                            </button>
+                            <button id="import-presets-btn" class="btn btn-secondary btn-small" type="button">
+                                Import
+                            </button>
+                            <input id="import-presets-input" type="file" accept="application/json" class="hidden-input">
+                        </div>
+                        <p id="preset-status" class="help-text status-message" role="status"></p>
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="custom-layer-enabled">
+                        <label for="custom-layer-enabled">Enable custom layer</label>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="custom-layer-key">Tag key</label>
+                            <input type="text" id="custom-layer-key" class="form-control" placeholder="railway">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-value">Tag value</label>
+                            <input type="text" id="custom-layer-value" class="form-control" placeholder="rail">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-style">Style</label>
+                            <select id="custom-layer-style" class="form-control">
+                                <option value="line">Line</option>
+                                <option value="fill">Fill</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-color">Color</label>
+                            <input type="color" id="custom-layer-color" class="form-control" value="#333333">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-width">Line width</label>
+                            <input type="number" id="custom-layer-width" class="form-control" min="0.1" max="3" step="0.1" value="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-layer-zorder">Z-order</label>
+                            <input type="number" id="custom-layer-zorder" class="form-control" min="0" max="10" step="0.1" value="2.5">
+                        </div>
+                    </div>
+                    <p class="help-text">Leave tag value blank for boolean tags like building.</p>
+                </div>
+
+                <div class="form-section">
+                    <h3>Typography Positions</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="text-city-y">City</label>
+                            <input type="number" id="text-city-y" class="form-control" min="0" max="1" step="0.01" value="0.14">
+                        </div>
+                        <div class="form-group">
+                            <label for="text-line-y">Divider line</label>
+                            <input type="number" id="text-line-y" class="form-control" min="0" max="1" step="0.01" value="0.125">
+                        </div>
+                        <div class="form-group">
+                            <label for="text-country-y">Country</label>
+                            <input type="number" id="text-country-y" class="form-control" min="0" max="1" step="0.01" value="0.10">
+                        </div>
+                        <div class="form-group">
+                            <label for="text-coords-y">Coordinates</label>
+                            <input type="number" id="text-coords-y" class="form-control" min="0" max="1" step="0.01" value="0.07">
+                        </div>
+                        <div class="form-group">
+                            <label for="text-attribution-y">Attribution</label>
+                            <input type="number" id="text-attribution-y" class="form-control" min="0" max="1" step="0.01" value="0.02">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="poster-result" class="card" style="display: none;">
+                <h2>Generated Poster</h2>
+                <div id="poster-preview" class="poster-preview">
+                    <img id="poster-image" src="" alt="Generated poster">
+                </div>
+                <div class="button-group">
+                    <a id="download-btn" href="#" download class="btn btn-success">
+                        Download Poster
+                    </a>
+                    <button id="new-poster-btn" class="btn btn-secondary">
+                        Generate Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{
+  "name": "Chicago Bulls",
+  "description": "Red, black, and white - bold, high-contrast palette",
+  "bg": "#FAFAFA",
+  "text": "#0A0A0A",
+  "gradient_color": "#FAFAFA",
+  "water": "#D8D8D8",
+  "parks": "#EEEEEE",
+  "road_motorway": "#CE1141",
+  "road_primary": "#0A0A0A",
+  "road_secondary": "#2A2A2A",
+  "road_tertiary": "#5A5A5A",
+  "road_residential": "#9A9A9A",
+  "road_default": "#5A5A5A"
+}

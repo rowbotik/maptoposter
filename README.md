@@ -28,6 +28,16 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Web App
+
+```bash
+python app.py
+```
+
+Then open `http://localhost:5001`.
+
+### CLI
+
 ```bash
 python create_map_poster.py --city <city> --country <country> [options]
 ```
@@ -86,7 +96,7 @@ python create_map_poster.py --list-themes
 
 ## Themes
 
-17 themes available in `themes/` directory:
+Themes are stored in the `themes/` directory (30 total in this repo). Examples:
 
 | Theme | Style |
 |-------|-------|
@@ -140,11 +150,14 @@ Create a JSON file in `themes/` directory:
 ## Project Structure
 
 ```
-map_poster/
+maptoposter/
+├── app.py                        # Flask web app
 ├── create_map_poster.py          # Main script
-├── themes/               # Theme JSON files
-├── fonts/                # Roboto font files
-├── posters/              # Generated posters
+├── templates/                    # Web app templates
+├── static/                       # Web app assets
+├── themes/                       # Theme JSON files
+├── fonts/                        # Roboto font files
+├── posters/                      # Generated posters
 └── README.md
 ```
 
@@ -172,7 +185,7 @@ Quick reference for contributors who want to extend or modify the script.
 | Function | Purpose | Modify when... |
 |----------|---------|----------------|
 | `get_coordinates()` | City → lat/lon via Nominatim | Switching geocoding provider |
-| `create_poster()` | Main rendering pipeline | Adding new map layers |
+| `create_poster()` | Main rendering pipeline | Adding new map layers or visual controls |
 | `get_edge_colors_by_type()` | Road color by OSM highway tag | Changing road styling |
 | `get_edge_widths_by_type()` | Road width by importance | Adjusting line weights |
 | `create_gradient_fade()` | Top/bottom fade effect | Modifying gradient overlay |
@@ -188,6 +201,19 @@ z=2   Parks (green polygons)
 z=1   Water (blue polygons)
 z=0   Background color
 ```
+
+### Web App Advanced Controls
+
+The web UI exposes the core pipeline knobs via an `options` payload:
+- Road hierarchy toggles (colors + widths)
+- Network type selector (all/drive/bike/walk)
+- Extra layers (parks, water, buildings, railways)
+- Custom layer builder (tag key/value + style)
+- Custom layer presets (saved per browser, export/import)
+- Typography positions (normalized axes Y values)
+- Gradient fade toggle
+
+CLI-only flags (like `--list-themes`) are not surfaced in the web UI.
 
 ### OSM Highway Types → Road Hierarchy
 

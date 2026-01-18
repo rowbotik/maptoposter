@@ -1,0 +1,15 @@
+{
+  "name": "Detroit Lions",
+  "description": "Honolulu blue and silver - clean NFL-inspired palette",
+  "bg": "#F1F3F5",
+  "text": "#0B2C5D",
+  "gradient_color": "#F1F3F5",
+  "water": "#C7D7E5",
+  "parks": "#E5E9ED",
+  "road_motorway": "#0B2C5D",
+  "road_primary": "#1B4F8C",
+  "road_secondary": "#4E6E8E",
+  "road_tertiary": "#7C8FA3",
+  "road_residential": "#AEB8C2",
+  "road_default": "#7C8FA3"
+}

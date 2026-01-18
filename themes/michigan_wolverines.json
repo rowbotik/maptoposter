@@ -1,0 +1,15 @@
+{
+  "name": "Michigan Wolverines",
+  "description": "Maize and blue - iconic U of M colors",
+  "bg": "#F7F2E8",
+  "text": "#00274C",
+  "gradient_color": "#F7F2E8",
+  "water": "#D6DFE8",
+  "parks": "#EAE2D4",
+  "road_motorway": "#FFCB05",
+  "road_primary": "#00274C",
+  "road_secondary": "#1C4A7A",
+  "road_tertiary": "#5D7EA1",
+  "road_residential": "#A8B9C6",
+  "road_default": "#5D7EA1"
+}
