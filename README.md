@@ -51,23 +51,36 @@ Themes are stored in the `themes/` directory (30 total in this repo). Examples:
 
 | Theme | Style |
 |-------|-------|
-| `feature_based` | Classic black & white with road hierarchy |
-| `gradient_roads` | Smooth gradient shading |
-| `contrast_zones` | High contrast urban density |
-| `noir` | Pure black background, white roads |
-| `midnight_blue` | Navy background with gold roads |
-| `blueprint` | Architectural blueprint aesthetic |
-| `neon_cyberpunk` | Dark with electric pink/cyan |
-| `warm_beige` | Vintage sepia tones |
-| `pastel_dream` | Soft muted pastels |
-| `japanese_ink` | Minimalist ink wash style |
-| `forest` | Deep greens and sage |
-| `ocean` | Blues and teals for coastal cities |
-| `terracotta` | Mediterranean warmth |
-| `sunset` | Warm oranges and pinks |
-| `autumn` | Seasonal burnt oranges and reds |
-| `copper_patina` | Oxidized copper aesthetic |
-| `monochrome_blue` | Single blue color family |
+| `autumn` | Burnt oranges, deep reds, golden yellows - seasonal warmth |
+| `blueprint` | Classic architectural blueprint - technical drawing aesthetic |
+| `chicago_bears` | Navy and orange - classic NFL bold contrast |
+| `chicago_bulls` | Red, black, and white - bold, high-contrast palette |
+| `chicago_cubs` | Cubs blue with red accents - crisp and classic |
+| `contrast_zones` | Strong contrast showing urban density - darker in center, lighter at edges |
+| `copper_patina` | Oxidized copper aesthetic - teal-green patina with copper accents |
+| `cyberpunk` | Magenta, cyan, and purple neon on a deep midnight base |
+| `detroit_lions` | Honolulu blue and silver - clean NFL-inspired palette |
+| `detroit_tigers` | Navy and orange - classic baseball palette |
+| `feature_based` | Different shades for different road types and features with clear hierarchy |
+| `forest` | Deep greens and sage tones - organic botanical aesthetic |
+| `gradient_roads` | Smooth gradient from dark center to light edges with subtle features |
+| `japanese_ink` | Traditional ink wash inspired - minimalist with subtle red accent |
+| `michigan_state` | Green and white - Spartan palette with muted grays |
+| `michigan_wolverines` | Maize and blue - iconic U of M colors |
+| `midnight_blue` | Deep navy background with gold/copper roads - luxury atlas aesthetic |
+| `monochrome_blue` | Single blue color family with varying saturation - clean and cohesive |
+| `neon_cyberpunk` | Dark background with electric pink/cyan - bold night city vibes |
+| `noir` | Pure black background with white/gray roads - modern gallery aesthetic |
+| `ocean` | Various blues and teals - perfect for coastal cities |
+| `pastel_dream` | Soft muted pastels with dusty blues and mauves - dreamy artistic aesthetic |
+| `pride_lesbian` | Warm oranges, pinks, and plum - vibrant and layered |
+| `pride_progress` | Progress Pride colors with strong contrast and warm neutrals |
+| `pride_rainbow` | Bold, saturated rainbow accents on a clean light base |
+| `pride_rainbow_dark` | Rainbow accents on a deep charcoal base |
+| `pride_trans` | Light blues, pinks, and white - soft and clean |
+| `sunset` | Warm oranges and pinks on soft peach - dreamy golden hour aesthetic |
+| `terracotta` | Mediterranean warmth - burnt orange and clay tones on cream |
+| `warm_beige` | Earthy warm neutrals with sepia tones - vintage map aesthetic |
 
 ## Output
 
