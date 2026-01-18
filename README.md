@@ -1,6 +1,6 @@
-# City Map Poster Generator
+# Maptoposter Web
 
-Generate beautiful, minimalist map posters for any city in the world.
+Generate beautiful, minimalist map posters for any city with a web-first workflow and advanced controls.
 
 <img src="posters/singapore_neon_cyberpunk_20260108_184503.png" width="250">
 <img src="posters/dubai_midnight_blue_20260108_174920.png" width="250">
@@ -36,60 +36,11 @@ python app.py
 
 Then open `http://localhost:5001`.
 
-### CLI
-
-```bash
-python create_map_poster.py --city <city> --country <country> [options]
-```
-
-### Options
-
-| Option | Short | Description | Default |
-|--------|-------|-------------|---------|
-| `--city` | `-c` | City name | required |
-| `--country` | `-C` | Country name | required |
-| `--theme` | `-t` | Theme name | feature_based |
-| `--distance` | `-d` | Map radius in meters | 29000 |
-| `--list-themes` | | List all available themes | |
-
-### Examples
-
-```bash
-# Iconic grid patterns
-python create_map_poster.py -c "New York" -C "USA" -t noir -d 12000           # Manhattan grid
-python create_map_poster.py -c "Barcelona" -C "Spain" -t warm_beige -d 8000   # Eixample district
-
-# Waterfront & canals
-python create_map_poster.py -c "Venice" -C "Italy" -t blueprint -d 4000       # Canal network
-python create_map_poster.py -c "Amsterdam" -C "Netherlands" -t ocean -d 6000  # Concentric canals
-python create_map_poster.py -c "Dubai" -C "UAE" -t midnight_blue -d 15000     # Palm & coastline
-
-# Radial patterns
-python create_map_poster.py -c "Paris" -C "France" -t pastel_dream -d 10000   # Haussmann boulevards
-python create_map_poster.py -c "Moscow" -C "Russia" -t noir -d 12000          # Ring roads
-
-# Organic old cities
-python create_map_poster.py -c "Tokyo" -C "Japan" -t japanese_ink -d 15000    # Dense organic streets
-python create_map_poster.py -c "Marrakech" -C "Morocco" -t terracotta -d 5000 # Medina maze
-python create_map_poster.py -c "Rome" -C "Italy" -t warm_beige -d 8000        # Ancient layout
-
-# Coastal cities
-python create_map_poster.py -c "San Francisco" -C "USA" -t sunset -d 10000    # Peninsula grid
-python create_map_poster.py -c "Sydney" -C "Australia" -t ocean -d 12000      # Harbor city
-python create_map_poster.py -c "Mumbai" -C "India" -t contrast_zones -d 18000 # Coastal peninsula
-
-# River cities
-python create_map_poster.py -c "London" -C "UK" -t noir -d 15000              # Thames curves
-python create_map_poster.py -c "Budapest" -C "Hungary" -t copper_patina -d 8000  # Danube split
-
-# List available themes
-python create_map_poster.py --list-themes
-```
-
 ### Distance Guide
 
 | Distance | Best for |
 |----------|----------|
+| 1000-3000m | Very small areas, neighborhoods |
 | 4000-6000m | Small/dense cities (Venice, Amsterdam center) |
 | 8000-12000m | Medium cities, focused downtown (Paris, Barcelona) |
 | 15000-20000m | Large metros, full city view (Tokyo, Mumbai) |
@@ -150,7 +101,7 @@ Create a JSON file in `themes/` directory:
 ## Project Structure
 
 ```
-maptoposter/
+maptoposter-web/
 ├── app.py                        # Flask web app
 ├── create_map_poster.py          # Main script
 ├── templates/                    # Web app templates
@@ -206,14 +157,12 @@ z=0   Background color
 
 The web UI exposes the core pipeline knobs via an `options` payload:
 - Road hierarchy toggles (colors + widths)
-- Network type selector (all/drive/bike/walk)
+- Network type toggles (drive/bike/walk, or none)
 - Extra layers (parks, water, buildings, railways)
 - Custom layer builder (tag key/value + style)
-- Custom layer presets (saved per browser, export/import)
+- Custom layer presets (saved per browser, export/import/delete)
 - Typography positions (normalized axes Y values)
 - Gradient fade toggle
-
-CLI-only flags (like `--list-themes`) are not surfaced in the web UI.
 
 ### OSM Highway Types → Road Hierarchy
 

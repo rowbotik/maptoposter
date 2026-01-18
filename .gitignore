@@ -1,3 +1,7 @@
-cache/*
-env/
-.env/
+.DS_Store
+__pycache__/
+*.pyc
+venv/
+.venv/
+cache/
+posters/
