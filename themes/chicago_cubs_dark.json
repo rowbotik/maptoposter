@@ -1,0 +1,15 @@
+{
+  "name": "Chicago Cubs (Dark)",
+  "description": "Deep navy with red accents - classic Cubs at night",
+  "bg": "#0B1E3F",
+  "text": "#F2F5FA",
+  "gradient_color": "#0B1E3F",
+  "water": "#142B55",
+  "parks": "#1B345F",
+  "road_motorway": "#CC3433",
+  "road_primary": "#F2F5FA",
+  "road_secondary": "#B5C7E6",
+  "road_tertiary": "#7D96C4",
+  "road_residential": "#536C97",
+  "road_default": "#7D96C4"
+}

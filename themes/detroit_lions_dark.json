@@ -1,0 +1,15 @@
+{
+  "name": "Detroit Lions (Dark)",
+  "description": "Deep Honolulu blue with silver road glow",
+  "bg": "#0B2C5D",
+  "text": "#F1F6FB",
+  "gradient_color": "#0B2C5D",
+  "water": "#12366D",
+  "parks": "#1C4175",
+  "road_motorway": "#2F7ABF",
+  "road_primary": "#F1F6FB",
+  "road_secondary": "#AFC3D8",
+  "road_tertiary": "#7E96B2",
+  "road_residential": "#556C85",
+  "road_default": "#7E96B2"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Chicago Bulls (Dark)",
+  "description": "Dark black canvas with bold red accents",
+  "bg": "#0A0A0A",
+  "text": "#F5F5F5",
+  "gradient_color": "#0A0A0A",
+  "water": "#1C1C1C",
+  "parks": "#222222",
+  "road_motorway": "#CE1141",
+  "road_primary": "#F5F5F5",
+  "road_secondary": "#B5B5B5",
+  "road_tertiary": "#7A7A7A",
+  "road_residential": "#4D4D4D",
+  "road_default": "#7A7A7A"
+}

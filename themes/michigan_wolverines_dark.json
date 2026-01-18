@@ -1,0 +1,15 @@
+{
+  "name": "Michigan Wolverines (Dark)",
+  "description": "Deep maize and blue with warm highlights",
+  "bg": "#00274C",
+  "text": "#F7F2E8",
+  "gradient_color": "#00274C",
+  "water": "#0C3562",
+  "parks": "#143E6A",
+  "road_motorway": "#FFCB05",
+  "road_primary": "#F7F2E8",
+  "road_secondary": "#C9D3DE",
+  "road_tertiary": "#8BA2B8",
+  "road_residential": "#5A6F85",
+  "road_default": "#8BA2B8"
+}

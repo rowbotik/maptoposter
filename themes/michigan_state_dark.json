@@ -1,0 +1,15 @@
+{
+  "name": "Michigan State (Dark)",
+  "description": "Deep Spartan green with soft mint accents",
+  "bg": "#18453B",
+  "text": "#E9F2EE",
+  "gradient_color": "#18453B",
+  "water": "#1F5649",
+  "parks": "#256555",
+  "road_motorway": "#7FD1B4",
+  "road_primary": "#E9F2EE",
+  "road_secondary": "#B7D0C6",
+  "road_tertiary": "#86A89E",
+  "road_residential": "#59786F",
+  "road_default": "#86A89E"
+}

@@ -47,26 +47,33 @@ Then open `http://localhost:5001`.
 
 ## Themes
 
-Themes are stored in the `themes/` directory (30 total in this repo). Examples:
+Themes are stored in the `themes/` directory (37 total in this repo). Examples:
 
 | Theme | Style |
 |-------|-------|
 | `autumn` | Burnt oranges, deep reds, golden yellows - seasonal warmth |
 | `blueprint` | Classic architectural blueprint - technical drawing aesthetic |
 | `chicago_bears` | Navy and orange - classic NFL bold contrast |
+| `chicago_bears_dark` | Dark navy with orange highlights - night mode Bears palette |
 | `chicago_bulls` | Red, black, and white - bold, high-contrast palette |
+| `chicago_bulls_dark` | Dark black canvas with bold red accents |
 | `chicago_cubs` | Cubs blue with red accents - crisp and classic |
+| `chicago_cubs_dark` | Deep navy with red accents - classic Cubs at night |
 | `contrast_zones` | Strong contrast showing urban density - darker in center, lighter at edges |
 | `copper_patina` | Oxidized copper aesthetic - teal-green patina with copper accents |
 | `cyberpunk` | Magenta, cyan, and purple neon on a deep midnight base |
 | `detroit_lions` | Honolulu blue and silver - clean NFL-inspired palette |
+| `detroit_lions_dark` | Deep Honolulu blue with silver road glow |
 | `detroit_tigers` | Navy and orange - classic baseball palette |
+| `detroit_tigers_dark` | Deep navy with orange highlights - night Tigers palette |
 | `feature_based` | Different shades for different road types and features with clear hierarchy |
 | `forest` | Deep greens and sage tones - organic botanical aesthetic |
 | `gradient_roads` | Smooth gradient from dark center to light edges with subtle features |
 | `japanese_ink` | Traditional ink wash inspired - minimalist with subtle red accent |
 | `michigan_state` | Green and white - Spartan palette with muted grays |
+| `michigan_state_dark` | Deep Spartan green with soft mint accents |
 | `michigan_wolverines` | Maize and blue - iconic U of M colors |
+| `michigan_wolverines_dark` | Deep maize and blue with warm highlights |
 | `midnight_blue` | Deep navy background with gold/copper roads - luxury atlas aesthetic |
 | `monochrome_blue` | Single blue color family with varying saturation - clean and cohesive |
 | `neon_cyberpunk` | Dark background with electric pink/cyan - bold night city vibes |
